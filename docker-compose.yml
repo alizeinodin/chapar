@@ -66,6 +66,16 @@ services:
     networks:
       - backend
 
+  redis:
+      image: redis:latest
+      command: redis-server --appendonly yes --replica-read-only no --requirepass chapar#123@321*
+      volumes:
+        - ./data/redis:/data
+      ports:
+        - "6379:6379"
+      networks:
+        - backend
+
   composer:
     image: composer:latest
     container_name: composer
