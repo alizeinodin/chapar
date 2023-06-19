@@ -5,7 +5,10 @@ namespace App\Http\Controllers\v1\SMS;
 use Alizne\SmsApi\SMSApi;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SMS\SMSVerification\SendRequest;
+use App\Http\Requests\SMS\SMSVerification\VerifyRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Redis;
+use Symfony\Component\HttpFoundation\Response;
 
 class SmsVerificationController extends Controller
 {
@@ -42,8 +45,20 @@ class SmsVerificationController extends Controller
         $this->sms->SendingSMS([$validatedData['phone']], $message);
     }
 
-    public function verify()
+    public function verify(VerifyRequest $request): JsonResponse
     {
-        # TODO implement verify phone number of user
+        $validatedData = $request->validated();
+
+        $phone = json_decode(Redis::get("phone_{$validatedData['phone']}"));
+
+        if ($validatedData['code'] === $phone['code']) {
+            return response()->json([
+                'message' => 'the phone number validated.',
+            ], Response::HTTP_ACCEPTED);
+        }
+
+        return \response()->json([
+            'message' => 'the code is not valid.'
+        ], Response::HTTP_FORBIDDEN);
     }
 }
