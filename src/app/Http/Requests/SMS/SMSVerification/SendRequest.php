@@ -5,7 +5,7 @@ namespace App\Http\Requests\SMS\SMSVerification;
 use App\Rules\PhoneRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class Send extends FormRequest
+class SendRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
