@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers\v1\SMS;
 
+use Alizne\SmsApi\SMSApi;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\SMS\SMSVerification\SendRequest;
 
 class SmsVerificationController extends Controller
 {
-    public function send()
+    private SMSApi $sms;
+
+    public function __construct(SMSApi $sms)
+    {
+        $this->sms = $sms;
+    }
+
+    public function send(SendRequest $request)
     {
         # TODO implement send sms verification for phone number
     }
