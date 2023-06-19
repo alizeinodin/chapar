@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 
 class PhoneRule implements ValidationRule
 {
-    const pattern = ''; # TODO implement pattern for regex of iran phone number
+    const pattern = '/(98|0)9\d{9}/';
 
     /**
      * Run the validation rule.
