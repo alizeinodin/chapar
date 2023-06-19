@@ -15,6 +15,11 @@ class SmsVerificationController extends Controller
         $this->sms = $sms;
     }
 
+    protected function code(): int
+    {
+        return mt_rand(100000, 999999);
+    }
+
     public function send(SendRequest $request)
     {
         # TODO implement send sms verification for phone number
