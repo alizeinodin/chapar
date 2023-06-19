@@ -4,8 +4,55 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9e587c6dc233615f759de8c472a42b3b",
+    "content-hash": "470ce38e6e4462f4df22e2d31f732be4",
     "packages": [
+        {
+            "name": "alizne/smsapi",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alizeinodin/SMSApi.git",
+                "reference": "3f179fafb7b29b27782ef6c8eaa07d1dd4fe0eec"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/alizeinodin/SMSApi/zipball/3f179fafb7b29b27782ef6c8eaa07d1dd4fe0eec",
+                "reference": "3f179fafb7b29b27782ef6c8eaa07d1dd4fe0eec",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Alizne\\SmsApi\\SmsApiServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Alizne\\SmsApi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ali Zeinodin",
+                    "email": "alizeinodin79@gmail.com"
+                }
+            ],
+            "description": "A package to connecting to sms.ir for send sms, get sms and etc function's",
+            "support": {
+                "issues": "https://github.com/alizeinodin/SMSApi/issues",
+                "source": "https://github.com/alizeinodin/SMSApi/tree/v1.0.1"
+            },
+            "time": "2022-03-09T19:30:45+00:00"
+        },
         {
             "name": "brick/math",
             "version": "0.11.0",
