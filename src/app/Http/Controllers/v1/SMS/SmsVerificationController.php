@@ -32,17 +32,25 @@ class SmsVerificationController extends Controller
     /**
      * @throws \Exception
      */
-    public function send(SendRequest $request)
+    public function send(SendRequest $request): JsonResponse
     {
         $validatedData = $request->validated();
         $code = $this->code(); // random code that send to user
         $message = $this->message($code);
 
         // store in db
-        Redis::set('phone_' . $validatedData['phone'], $code);
+        Redis::set('phone_' . $validatedData['phone'], json_encode([
+            'code' => $code,
+            'status' => 'pending' # TODO implement enum for status
+        ]));
 
         // send code to user phone number
         $this->sms->SendingSMS([$validatedData['phone']], $message);
+
+        return \response()->json([
+            'message' => 'the code sent to phone number',
+            'phone_number' => $validatedData['phone'],
+        ], Response::HTTP_OK);
     }
 
     public function verify(VerifyRequest $request): JsonResponse
