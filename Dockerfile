@@ -19,3 +19,4 @@ RUN apk update && apk add --no-cache \
     libjpeg-turbo-dev
 
 RUN docker-php-ext-install pdo pdo_mysql curl zip
+RUN pecl install redis && docker-php-ext-enable redis
