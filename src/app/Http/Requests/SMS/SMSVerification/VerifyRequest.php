@@ -27,7 +27,7 @@ class VerifyRequest extends FormRequest
                 'required',
                 new PhoneRule(),
             ],
-            'code' => 'required|integer|size:6',
+            'code' => 'required|integer', # TODO check size of code. it should be 6
         ];
     }
 }
