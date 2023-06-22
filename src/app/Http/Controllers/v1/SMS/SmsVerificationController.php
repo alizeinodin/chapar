@@ -6,6 +6,7 @@ use Alizne\SmsApi\SMSApi;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SMS\SMSVerification\SendRequest;
 use App\Http\Requests\SMS\SMSVerification\VerifyRequest;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Redis;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,7 +31,7 @@ class SmsVerificationController extends Controller
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function send(SendRequest $request): JsonResponse
     {
@@ -38,7 +39,9 @@ class SmsVerificationController extends Controller
         $code = $this->code(); // random code that send to user
         $message = $this->message($code);
 
+        # TODO add repository pattern
         // store in db
+        # TODO add expire time for redis set
         Redis::set('phone_' . $validatedData['phone'], json_encode([
             'code' => $code,
             'status' => 'pending' # TODO implement enum for status
@@ -48,7 +51,7 @@ class SmsVerificationController extends Controller
         $this->sms->SendingSMS([$validatedData['phone']], $message);
 
         return \response()->json([
-            'message' => 'the code sent to phone number',
+            'message' => 'the code sent to phone number', # TODO localization
             'phone_number' => $validatedData['phone'],
         ], Response::HTTP_OK);
     }
@@ -57,16 +60,19 @@ class SmsVerificationController extends Controller
     {
         $validatedData = $request->validated();
 
+        # TODO add search for key and error handling
         $phone = json_decode(Redis::get("phone_{$validatedData['phone']}"));
 
-        if ($validatedData['code'] === $phone['code']) {
+        if ((int) $validatedData['code'] === $phone->code) {
+            $phone->status = 'verified'; # TODO implement php enum for verified
+
             return response()->json([
-                'message' => 'the phone number validated.',
+                'message' => 'the phone number validated.', # TODO localization
             ], Response::HTTP_ACCEPTED);
         }
 
         return \response()->json([
-            'message' => 'the code is not valid.'
+            'message' => 'the code is not valid.', # TODO localization
         ], Response::HTTP_FORBIDDEN);
     }
 }
