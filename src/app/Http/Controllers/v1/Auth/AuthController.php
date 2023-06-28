@@ -23,7 +23,6 @@ class AuthController extends Controller
             'firstname' => $validatedData['firstname'],
             'lastname' => $validatedData['lastname'] ?? null,
             'phone' => $validatedData['phone'],
-            'username' => $validatedData['username'] ?? null,
         ]);
 
         $token = $user->createToken('access_token')->accessToken;
