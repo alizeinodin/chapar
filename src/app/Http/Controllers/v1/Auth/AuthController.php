@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
@@ -73,8 +74,16 @@ class AuthController extends Controller
         return response()->json($response, Response::HTTP_ACCEPTED);
     }
 
-    public function logout()
+    /**
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function logout(Request $request): JsonResponse
     {
-        # TODO implement logout method
+        $request->user()->token()->revoke(); // delete token and logout
+
+        # TODO add global response for error and success
+        return response()->json(Response::HTTP_NO_CONTENT);
     }
 }
