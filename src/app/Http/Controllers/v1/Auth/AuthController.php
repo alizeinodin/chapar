@@ -11,6 +11,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
+    private function ()
+    {
+
+    }
+
     /**
      * @param RegisterRequest $request
      *
@@ -51,6 +56,7 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request): JsonResponse
     {
+        # TODO add middleware for checking validation of phone number for login
         $validatedData = $request->validated();
 
         $user = User::where(['phone' => $validatedData['phone']]);
