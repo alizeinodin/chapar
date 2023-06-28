@@ -76,7 +76,7 @@ class AuthController extends Controller
      */
     public function logout(Request $request): JsonResponse
     {
-        $request->user()->token()->revoke(); // delete token and logout
+        $request->user()->currentAccessToken()->delete(); // delete current access token and logout
 
         # TODO add global response for error and success
         return response()->json(Response::HTTP_NO_CONTENT);
