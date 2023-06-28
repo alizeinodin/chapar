@@ -55,7 +55,7 @@ class AuthController extends Controller
         # TODO add middleware for checking validation of phone number for login
         $validatedData = $request->validated();
 
-        $user = User::where(['phone' => $validatedData['phone']]);
+        $user = User::where(['phone' => $validatedData['phone']])->first();
 
         $token = $user->createToken('access_token')->accessToken;
 
@@ -63,7 +63,7 @@ class AuthController extends Controller
         $response = [
             'user' => $user,
             'accessToken' => $token,
-            'message' => $user->firstname . _(' عزیز خوش اومدی :)'),
+            'message' => $user->firstname . __(' عزیز خوش اومدی :)'),
         ];
 
         return response()->json($response, Response::HTTP_ACCEPTED);
