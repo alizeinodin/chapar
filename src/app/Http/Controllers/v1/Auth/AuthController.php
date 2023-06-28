@@ -12,11 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
-    private function ()
-    {
-
-    }
-
     /**
      * @param RegisterRequest $request
      *
