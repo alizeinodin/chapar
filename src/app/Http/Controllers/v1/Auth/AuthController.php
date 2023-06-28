@@ -79,6 +79,7 @@ class AuthController extends Controller
         $request->user()->token()->delete(); // delete current access token and logout
 
         # TODO add global response for error and success
-        return response()->json(Response::HTTP_NO_CONTENT);
+
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 }
