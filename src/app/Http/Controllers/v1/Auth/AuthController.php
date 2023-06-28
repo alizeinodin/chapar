@@ -41,4 +41,9 @@ class AuthController extends Controller
     {
         # TODO implement login method
     }
+
+    public function logout()
+    {
+        # TODO implement logout method
+    }
 }
