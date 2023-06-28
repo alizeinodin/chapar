@@ -3,13 +3,20 @@
 namespace App\Http\Controllers\v1\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
-    public function register(RegisterRequest $request): \Illuminate\Http\JsonResponse
+    /**
+     * @param RegisterRequest $request
+     *
+     * @return JsonResponse
+     */
+    public function register(RegisterRequest $request): JsonResponse
     {
         $validatedData = $request->validated();
 
@@ -37,9 +44,27 @@ class AuthController extends Controller
         return response()->json($response, Response::HTTP_CREATED);
     }
 
-    public function login()
+    /**
+     * @param LoginRequest $request
+     *
+     * @return JsonResponse
+     */
+    public function login(LoginRequest $request): JsonResponse
     {
-        # TODO implement login method
+        $validatedData = $request->validated();
+
+        $user = User::where(['phone' => $validatedData['phone']]);
+
+        $token = $user->createToken('access_token')->accessToken;
+
+        # TODO add global response for error and success
+        $response = [
+            'user' => $user,
+            'accessToken' => $token,
+            'message' => $user->firstname . _(' عزیز خوش اومدی :)'),
+        ];
+
+        return response()->json($response, Response::HTTP_ACCEPTED);
     }
 
     public function logout()
