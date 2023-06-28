@@ -39,7 +39,7 @@ class AuthController extends Controller
         $response = [
             'user' => $user,
             'accessToken' => $token,
-            'message' => $user->firstname . _(' عزیز خوش اومدی :)'),
+            'message' => $user->firstname . ' ' . __('عزیز خوش اومدی :)'),
         ];
 
         return response()->json($response, Response::HTTP_CREATED);
@@ -76,7 +76,7 @@ class AuthController extends Controller
      */
     public function logout(Request $request): JsonResponse
     {
-        $request->user()->currentAccessToken()->delete(); // delete current access token and logout
+        $request->user()->token()->delete(); // delete current access token and logout
 
         # TODO add global response for error and success
         return response()->json(Response::HTTP_NO_CONTENT);
