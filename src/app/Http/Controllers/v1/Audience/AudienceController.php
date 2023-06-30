@@ -50,6 +50,7 @@ class AudienceController extends Controller
     {
         $audience = Auth::user()->audiences()->find($id);
 
+        # TODO checking middleware for existing audience
         $response = $audience ??= [
             'message' => __('مخاطب یافت نشد!'),
         ];
