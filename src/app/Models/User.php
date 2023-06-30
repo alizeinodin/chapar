@@ -8,6 +8,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
+/**
+ * @property mixed $firstname
+ * @property mixed $lastname
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -30,6 +34,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
+        'firstname',
+        'lastname',
         'password',
         'remember_token',
         'created_at',
@@ -47,4 +53,18 @@ class User extends Authenticatable
         'created_at' => 'datetime',
         'update_at' => 'datetime',
     ];
+
+    /**
+     * The attributes that should be appended
+     *
+     * @var string[]
+     */
+    protected $appends = [
+        'fullname',
+    ];
+
+    public function getFullNameAttribute(): string
+    {
+        return $this->firstname . ' ' . $this->lastname;
+    }
 }
