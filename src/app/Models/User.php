@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -63,8 +64,27 @@ class User extends Authenticatable
         'fullname',
     ];
 
+    /**
+     * @return string
+     */
     public function getFullNameAttribute(): string
     {
         return $this->firstname . ' ' . $this->lastname;
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function audiences(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'audience_user', 'user_id', 'audience_id');
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function audienceOf(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'audience_user', 'audience_id', 'user_id');
     }
 }
