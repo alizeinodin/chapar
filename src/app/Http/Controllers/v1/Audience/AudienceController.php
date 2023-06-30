@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\v1\Audience;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Audience\StoreAudienceRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class AudienceController extends Controller
 {
@@ -21,15 +22,25 @@ class AudienceController extends Controller
             'audiences' => $user->audiences,
         ];
 
-        return response()->json($response);
+        return response()
+            ->json($response, Response::HTTP_OK);
     }
 
     /**
      * Store an audience for user.
      */
-    public function store(Request $request)
+    public function store(StoreAudienceRequest $request): JsonResponse
     {
-        # TODO implement store audience for user
+        $validatedData = $request->validated();
+
+        $request->user()->audiences()->attach($validatedData['id']);
+
+        $response = [
+            'message' => __('مخاطب به لیست مخاطبین اضافه شد.'),
+        ];
+
+        return response()
+            ->json($response, Response::HTTP_ACCEPTED);
     }
 
     /**
