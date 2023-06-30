@@ -46,16 +46,40 @@ class AudienceController extends Controller
     /**
      * Display the specified audience of user.
      */
-    public function show(string $id)
+    public function show(string $id): JsonResponse
     {
-        # TODO implement show audience of a user
+        $audience = Auth::user()->audiences()->find($id);
+
+        $response = $audience ??= [
+            'message' => __('مخاطب یافت نشد!'),
+        ];
+
+        return \response()
+            ->json($response, Response::HTTP_OK);
     }
 
     /**
      * Remove the specified resource from audiences of user.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): JsonResponse
     {
-        # TODO implement delete a audience from list of audiences of user
+        $user = Auth::user();
+
+        $audience = $user->audiences()->find($id);
+
+        # TODO middleware checking for exists audience for user (replace with if statement) and change this method and return http_no_content when deleted
+        if ($audience) {
+            $user->audiences()->detach($id);
+            $response = [
+                'message' => __('مخاطب مورد نظر با موفقیت حذف شد.'),
+            ];
+        } else {
+            $response = [
+                'message' => __('مخاطب یافت نشد!'),
+            ];
+        }
+
+        return \response()
+            ->json($response, Response::HTTP_ACCEPTED);
     }
 }
