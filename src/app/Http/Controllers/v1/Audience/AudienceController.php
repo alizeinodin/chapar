@@ -33,7 +33,10 @@ class AudienceController extends Controller
     {
         $validatedData = $request->validated();
 
-        $request->user()->audiences()->attach($validatedData['id']);
+        # TODO checking user, if user not exists as audience then add audience
+        $request->user()
+            ->audiences()
+            ->attach($validatedData['audience_id']);
 
         $response = [
             'message' => __('مخاطب به لیست مخاطبین اضافه شد.'),
