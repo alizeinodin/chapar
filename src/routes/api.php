@@ -11,5 +11,12 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 require_once 'API/SMSVerification.php';
 require_once 'API/Auth.php';
+
+Route::middleware('auth:api')->group(function () {
+    require_once 'API/Audience.php';
+
+});
