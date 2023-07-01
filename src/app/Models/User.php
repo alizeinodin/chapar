@@ -41,7 +41,8 @@ class User extends Authenticatable
         'remember_token',
         'created_at',
         'updated_at',
-        'email'
+        'email',
+        'audiences'
     ];
     /**
      * The attributes that should be cast.
