@@ -22,7 +22,7 @@ class StoreAudienceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|exists:users, id',
+            'audience_id' => 'required|exists:users,id',
         ];
     }
 }
