@@ -12,6 +12,7 @@ use Laravel\Passport\HasApiTokens;
 /**
  * @property mixed $firstname
  * @property mixed $lastname
+ * @property array $audiences
  */
 class User extends Authenticatable
 {
