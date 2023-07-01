@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\v1\Audience;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Audience\StoreAllRequest;
 use App\Http\Requests\Audience\StoreAudienceRequest;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +26,27 @@ class AudienceController extends Controller
 
         return response()
             ->json($response, Response::HTTP_OK);
+    }
+
+    public function storeAll(StoreAllRequest $request): JsonResponse
+    {
+        $validatedData = $request->validated();
+
+        # TODO checking user, if user not exists as audience then add audience
+        $usersId = User::whereIn('phone', $validatedData['phones'])
+            ->pluck('id')
+            ->toArray();
+
+        $request->user()
+            ->audiences()
+            ->attach($usersId);
+
+        $response = [
+            'message' => __('مخاطبین اضافه شدند.'),
+        ];
+
+        return \response()
+            ->json($response, Response::HTTP_ACCEPTED);
     }
 
     /**
