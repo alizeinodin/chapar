@@ -19,4 +19,5 @@ require_once 'API/Auth.php';
 Route::middleware('auth:api')->group(function () {
     require_once 'API/Audience.php';
     require_once 'API/User.php';
+    require_once 'API/Search.php';
 });
