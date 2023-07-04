@@ -89,4 +89,12 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(User::class, 'audience_user', 'audience_id', 'user_id');
     }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function chats(): BelongsToMany
+    {
+        return $this->belongsToMany(PrivateChat::class, 'private_chat_user', 'user_id', 'private_chat_id');
+    }
 }
