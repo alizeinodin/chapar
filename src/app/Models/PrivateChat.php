@@ -4,19 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class PrivateChat extends Model
 {
     use HasFactory;
 
-    public function userOne(): BelongsTo
+    public function users(): BelongsToMany
     {
-        return $this->belongsTo(User::class, 'userOne_id');
-    }
-
-    public function userTwo(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'userTwo_id');
+        return $this->belongsToMany(User::class, 'private_chat_user', 'user_id', 'private_chat_id');
     }
 }
