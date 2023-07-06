@@ -10,6 +10,10 @@ class PrivateChat extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'chat_id'
+    ];
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'private_chat_user', 'user_id', 'private_chat_id');
