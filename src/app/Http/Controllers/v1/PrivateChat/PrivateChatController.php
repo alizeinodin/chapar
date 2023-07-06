@@ -26,15 +26,16 @@ class PrivateChatController extends Controller
         $validatedData = $request->validated();
 
         # TODO add repository pattern for store in db
-        $chat = new PrivateChat();
-        $chat->chat_id = $this->chatId($request->user()->id, $validatedData['user']);
+        $chat = PrivateChat::create([
+            'chat_id' => $this->chatId($request->user()->id, $validatedData['user']),
+        ]);
 
         $request->user()
             ->chats()
-            ->attach($chat)
-            ->save();
+            ->attach($chat);
 
         $response = [
+            'chat' => $chat,
             'message' => __('چت خصوصی با موفقیت ایجاد شد.')
         ];
 
@@ -44,6 +45,7 @@ class PrivateChatController extends Controller
 
     public function show(PrivateChat $chat): JsonResponse
     {
+        # TODO add permission for get chat of own user
         return \response()
             ->json($chat, Response::HTTP_ACCEPTED);
     }
