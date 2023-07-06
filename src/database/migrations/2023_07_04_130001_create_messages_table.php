@@ -30,6 +30,8 @@ return new class extends Migration {
 
             $table->json('content');
 
+            $table->boolean('is_delete')->default(false);
+
             $table->timestamps();
         });
     }
