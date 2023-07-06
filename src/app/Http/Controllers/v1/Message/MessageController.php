@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\v1\Message;
 
+use App\Events\MessageSendEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Message\StoreMessageRequest;
 use App\Http\Requests\Message\UpdateMessageRequest;
@@ -40,7 +41,7 @@ class MessageController extends Controller
             'content' => $validatedData['content']
         ]);
 
-        # TODO event: add to queue of redis
+        event(new MessageSendEvent($message));
 
         return response()
             ->json($message, Response::HTTP_CREATED);
