@@ -21,4 +21,5 @@ Route::middleware('auth:api')->group(function () {
     require_once 'API/User.php';
     require_once 'API/Search.php';
     require_once 'API/PrivateChat.php';
+    require_once 'API/Message.php';
 });
