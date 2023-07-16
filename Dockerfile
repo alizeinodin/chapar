@@ -2,7 +2,7 @@ FROM php:8.2-fpm-alpine
 
 WORKDIR /var/www/html
 
-ADD . /var/www
+ADD .. /var/www
 RUN chown -R www-data:www-data /var/www
 
 # install necessary alpine packages
