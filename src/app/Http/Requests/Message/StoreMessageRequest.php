@@ -22,7 +22,7 @@ class StoreMessageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'chat_id' => 'exists:private_chats,id',
+            'chat_id' => 'required|exists:private_chats,id',
             'receiver_id' => 'required|exists:users,id',
             'content' => 'required|json'
         ];
