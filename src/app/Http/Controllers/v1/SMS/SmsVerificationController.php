@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 class SmsVerificationController extends Controller
 {
     private SMSApi $sms;
+    public const LIFETIME = 120;
 
     public function __construct(SMSApi $sms)
     {
@@ -41,11 +42,10 @@ class SmsVerificationController extends Controller
 
         # TODO add repository pattern
         // store in db
-        # TODO add expire time for redis set
         Redis::set('phone_' . $validatedData['phone'], json_encode([
             'code' => $code,
             'status' => 'pending' # TODO implement enum for status
-        ]));
+        ]), 'EX', self::LIFETIME);
 
         // send code to user phone number
         $this->sms->SendingSMS([$validatedData['phone']], $message);
@@ -63,7 +63,7 @@ class SmsVerificationController extends Controller
         # TODO add search for key and error handling
         $phone = json_decode(Redis::get("phone_{$validatedData['phone']}"));
 
-        if ((int) $validatedData['code'] === $phone->code) {
+        if ((int)$validatedData['code'] === $phone->code) {
             $phone->status = 'verified'; # TODO implement php enum for verified
 
             return response()->json([
