@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v1\SMS;
 
 use Alizne\SmsApi\SMSApi;
+use App\Enum\PhoneStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SMS\SMSVerification\SendRequest;
 use App\Http\Requests\SMS\SMSVerification\VerifyRequest;
@@ -64,7 +65,7 @@ class SmsVerificationController extends Controller
         $phone = json_decode(Redis::get("phone_{$validatedData['phone']}"));
 
         if ((int)$validatedData['code'] === $phone->code) {
-            $phone->status = 'verified'; # TODO implement php enum for verified
+            $phone->status = PhoneStatus::VERIFIED;
 
             return response()->json([
                 'message' => 'the phone number validated.', # TODO localization
