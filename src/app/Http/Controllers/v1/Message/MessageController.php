@@ -17,7 +17,7 @@ class MessageController extends Controller
      */
     public function index(): JsonResponse
     {
-        $response = Message::all()->paginate();
+        $response = Message::where(['is_delete' => false])->paginate();
 
         return response()
             ->json($response, Response::HTTP_OK);
@@ -35,10 +35,10 @@ class MessageController extends Controller
             ->find($validatedData['chat_id']);
 
         $message = Message::create([
-            'send_id' => $request->user()->id,
+            'sender_id' => $request->user()->id,
             'receiver_id' => $validatedData['receiver_id'],
             'private_chat_id' => $chat->id,
-            'content' => $validatedData['content']
+            'content' => json_encode($validatedData['content'])
         ]);
 
         event(new MessageSendEvent($message));
@@ -52,10 +52,12 @@ class MessageController extends Controller
      */
     public function show(Message $message): JsonResponse
     {
-        # TODO add permission for show messages of own user
-
+        # TODO add permission for show messages of own chat
+        $response = $message->is_delete ? [
+            'message' => 'پیام مورد نظر یافت نشد'
+        ] : $message;
         return response()
-            ->json($message, Response::HTTP_OK);
+            ->json($response, $message->is_delete ? Response::HTTP_NOT_FOUND : Response::HTTP_OK);
     }
 
     /**
