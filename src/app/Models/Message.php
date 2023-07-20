@@ -10,6 +10,17 @@ class Message extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'sender_id',
+        'receiver_id',
+        'private_chat_id',
+        'content'
+    ];
+
+    protected $hidden = [
+        'is_delete'
+    ];
+
     public function chat(): BelongsTo
     {
         return $this->belongsTo(PrivateChat::class);
