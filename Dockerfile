@@ -6,7 +6,7 @@ ADD .. /var/www
 RUN chown -R www-data:www-data /var/www
 
 # install necessary alpine packages
-RUN apk update && apk add --no-cache \
+RUN apk add --no-cache \
     zip \
     unzip \
     dos2unix \

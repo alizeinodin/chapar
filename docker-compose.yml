@@ -58,11 +58,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: php8.1
+    container_name: php8.1_chapar
     volumes:
       - ./src/:/var/www/html
     ports:
-      - "9000:9000"
+      - "9001:9000"
     networks:
       - backend
 
@@ -97,7 +97,7 @@ services:
     depends_on:
       - mysql
     working_dir: /var/www/html
-    entrypoint: ['php', '/var/www/html/artisan']
+    entrypoint: [ 'php', '/var/www/html/artisan' ]
     networks:
       - backend
 
