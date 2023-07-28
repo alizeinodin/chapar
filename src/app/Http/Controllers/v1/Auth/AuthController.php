@@ -21,7 +21,6 @@ class AuthController extends Controller
     {
         $validatedData = $request->validated();
 
-        # TODO middleware checking for check duplicate phone number
         # TODO add middleware for check phone number is validated or not
 
         # TODO add repository pattern
