@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Exceptions\UserForbidden;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
@@ -20,14 +21,15 @@ class SendSMSLimitation
     {
         $phone = $request['phone'];
 
-        if (!Redis::get("phone_{$phone}")) {
+        $phoneNumberInRedis = Redis::get("phone_{$phone}");
+        $jsonDecodedDataFromRedis = json_decode($phoneNumberInRedis);
+
+        if (!$phoneNumberInRedis or $jsonDecodedDataFromRedis->status != 'pending') {
             return $next($request);
         }
 
-        $response = [
-            'message' => __("لطفا چند لحظه صبر کنید")
-        ];
-        return \response()
-            ->json($response, Response::HTTP_FORBIDDEN);
+        $message = 'لطفا چند لحظه صبر کنید.';
+
+        throw new UserForbidden($message);
     }
 }
