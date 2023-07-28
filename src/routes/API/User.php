@@ -8,6 +8,11 @@ Route::controller(UserController::class)->group(function () {
         Route::name('user.')->group(function () {
             Route::get('/get', 'getUser')
                 ->name('get');
+
+            Route::middleware('auth:api')->group(function () {
+                Route::patch('/', 'update')
+                    ->name('update');
+            });
         });
     });
 });
