@@ -15,6 +15,7 @@ class PrivateChatController extends Controller
     {
         $response = Auth::user()
             ->chats()
+            ->with('users')
             ->paginate();
 
         return response()
